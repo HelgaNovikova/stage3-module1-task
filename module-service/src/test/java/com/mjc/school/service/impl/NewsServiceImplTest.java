@@ -36,7 +36,7 @@ class NewsServiceImplTest {
     @Test
     void getAllNewsDto() {
         //GIVEN
-        Mockito.when(repository.getNews()).thenReturn(Map.of(1L, pieceOfNews));
+        Mockito.when(repository.readAll()).thenReturn(Map.of(1L, pieceOfNews));
         PieceOfNewsResponseDto expected = new PieceOfNewsResponseDto();
         expected.setContent(pieceOfNews.getContent());
         expected.setId(pieceOfNews.getId());
@@ -48,14 +48,14 @@ class NewsServiceImplTest {
         //WHEN
         var response = service.getAllNewsDto();
         //THEN
-        Mockito.verify(repository).getNews();
+        Mockito.verify(repository).readAll();
         Assertions.assertEquals(List.of(expected), response);
     }
 
     @Test
     void getNewsByIdDto() {
            //GIVEN
-        Mockito.when(repository.getPieceOfNewsById(1L)).thenReturn(pieceOfNews);
+        Mockito.when(repository.readById(1L)).thenReturn(pieceOfNews);
         PieceOfNewsResponseDto expected = new PieceOfNewsResponseDto();
         expected.setContent(pieceOfNews.getContent());
         expected.setId(pieceOfNews.getId());
@@ -67,7 +67,7 @@ class NewsServiceImplTest {
         //WHEN
         var response = service.getNewsByIdDto(1);
         //THEN
-        Mockito.verify(repository).getPieceOfNewsById(1L);
+        Mockito.verify(repository).readById(1L);
         Assertions.assertEquals(expected, response);
     }
 
@@ -86,9 +86,9 @@ class NewsServiceImplTest {
         PieceOfNewsUpdateDto dto = new PieceOfNewsUpdateDto(1, "new Title", "new Content", 1);
         PieceOfNews updatedNews = new PieceOfNews(1L, "new Title", "new Content", now, now,
                 author);
-        Mockito.when(repository.save(any())).thenReturn(updatedNews);
+        Mockito.when(repository.update(any())).thenReturn(updatedNews);
         Mockito.when(repository.getAuthorById(anyLong())).thenReturn(author);
-        Mockito.when(repository.getPieceOfNewsById(anyLong())).thenReturn(pieceOfNews);
+        Mockito.when(repository.readById(anyLong())).thenReturn(pieceOfNews);
         PieceOfNewsResponseDto expected = new PieceOfNewsResponseDto();
         expected.setContent(dto.getContent());
         expected.setId(dto.getId());
@@ -100,7 +100,7 @@ class NewsServiceImplTest {
         //WHEN
         var response = service.updatePieceOfNewsByIdDto(dto);
         //THEN
-        Mockito.verify(repository).save(any());
+        Mockito.verify(repository).update(any());
         Assertions.assertEquals(expected, response);
     }
 
@@ -111,7 +111,7 @@ class NewsServiceImplTest {
         PieceOfNewsCreateDto dto = new PieceOfNewsCreateDto(1, "new Title", "new Content");
         PieceOfNews createdNews = new PieceOfNews(1L, "new Title", "new Content", now, now,
                 author);
-        Mockito.when(repository.save(any())).thenReturn(createdNews);
+        Mockito.when(repository.create(any())).thenReturn(createdNews);
         Mockito.when(repository.getAuthorById(anyLong())).thenReturn(author);
       //  Mockito.when(repository.getPieceOfNewsById(anyLong())).thenReturn(pieceOfNews);
         PieceOfNewsResponseDto expected = new PieceOfNewsResponseDto();
@@ -125,7 +125,7 @@ class NewsServiceImplTest {
         //WHEN
         var response = service.createPieceOfNewsDto(dto);
         //THEN
-        Mockito.verify(repository).save(any());
+        Mockito.verify(repository).create(any());
         Assertions.assertEquals(expected, response);
     }
 }

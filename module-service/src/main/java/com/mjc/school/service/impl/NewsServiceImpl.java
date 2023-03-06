@@ -24,7 +24,7 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     public List<PieceOfNewsResponseDto> getAllNewsDto() {
-        Map<Long, PieceOfNews> allNews = repo.getNews();
+        Map<Long, PieceOfNews> allNews = repo.readAll();
         List<PieceOfNewsResponseDto> newsDto = new ArrayList<>();
         for (PieceOfNews item : allNews.values()) {
             newsDto.add(NewsMapper.INSTANCE.newsToNewsResponseDto(item));
@@ -34,7 +34,7 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     public PieceOfNewsResponseDto getNewsByIdDto(int id) {
-        PieceOfNews news = repo.getPieceOfNewsById(id);
+        PieceOfNews news = repo.readById(id);
         return NewsMapper.INSTANCE.newsToNewsResponseDto(news);
     }
 
@@ -46,9 +46,9 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public PieceOfNewsResponseDto updatePieceOfNewsByIdDto(PieceOfNewsUpdateDto dto) {
         Author author = getAuthorById(dto.getAuthorId());
-        LocalDateTime createDate = repo.getPieceOfNewsById(dto.getId()).getCreateDate();
+        LocalDateTime createDate = repo.readById(dto.getId()).getCreateDate();
         PieceOfNews news = NewsMapper.INSTANCE.updateNewsDtoToNews(dto, author, createDate);
-        return NewsMapper.INSTANCE.newsToNewsResponseDto(repo.save(news));
+        return NewsMapper.INSTANCE.newsToNewsResponseDto(repo.update(news));
     }
 
     private Author getAuthorById(long id) {
@@ -63,6 +63,6 @@ public class NewsServiceImpl implements NewsService {
     public PieceOfNewsResponseDto createPieceOfNewsDto(PieceOfNewsCreateDto dto) {
         Author author = getAuthorById(dto.getAuthorId());
         PieceOfNews news = NewsMapper.INSTANCE.createNewsDtoToNews(dto, author);
-        return NewsMapper.INSTANCE.newsToNewsResponseDto(repo.save(news));
+        return NewsMapper.INSTANCE.newsToNewsResponseDto(repo.create(news));
     }
 }

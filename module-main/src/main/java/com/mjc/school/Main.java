@@ -2,6 +2,7 @@ package com.mjc.school;
 
 import com.mjc.school.controller.Menu;
 import com.mjc.school.repository.impl.FileRepository;
+import com.mjc.school.repository.utils.DataSource;
 import com.mjc.school.service.NewsService;
 import com.mjc.school.service.impl.NewsServiceImpl;
 
@@ -10,9 +11,9 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
-        FileRepository repo = new FileRepository();
-        repo.generateNews("news", "authors", "content");
-
+        DataSource ds = new DataSource();
+        ds.generateNews("news", "authors", "content");
+        FileRepository repo = new FileRepository(ds);
         NewsService service = new NewsServiceImpl(repo);
         Menu menu = new Menu(service);
         menu.showMenu();
