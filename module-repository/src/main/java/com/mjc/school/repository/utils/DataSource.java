@@ -3,6 +3,7 @@ package com.mjc.school.repository.utils;
 import com.mjc.school.repository.impl.FileRepository;
 import com.mjc.school.repository.model.AuthorModel;
 import com.mjc.school.repository.model.PieceOfNewsModel;
+import com.mjc.school.service.utils.NewsValidator;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,7 +20,7 @@ public class DataSource {
         long id = 1;
         List<AuthorModel> authorsFromFile = new ArrayList<>();
         for (String line : lines) {
-            if (RepositoryUtils.isAuthorValid(line)) {
+            if (NewsValidator.isAuthorValid(line)) {
                 authorsFromFile.add(new AuthorModel(id, line));
                 id++;
             }
@@ -30,13 +31,13 @@ public class DataSource {
 
     private List<String> readTitlesFromFiles(String titlePath) {
         List<String> lines = readFromFile(titlePath);
-        lines.forEach(RepositoryUtils::isTitleValid);
+        lines.forEach(NewsValidator::isTitleValid);
         return lines;
     }
 
     private List<String> readContentsFromFile(String contentPath) {
         List<String> lines = readFromFile(contentPath);
-        lines.forEach(RepositoryUtils::isContentValid);
+        lines.forEach(NewsValidator::isContentValid);
         return lines;
     }
 

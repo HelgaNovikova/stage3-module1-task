@@ -45,7 +45,7 @@ class NewsServiceImplTest {
         expected.setCreateDate(date);
         expected.setLastUpdateDate(date);
         //WHEN
-        var response = service.getAllNewsDto();
+        var response = service.readAllDto();
         //THEN
         Mockito.verify(repository).readAll();
         Assertions.assertEquals(List.of(expected), response);
@@ -64,7 +64,7 @@ class NewsServiceImplTest {
         expected.setCreateDate(date);
         expected.setLastUpdateDate(date);
         //WHEN
-        var response = service.getNewsByIdDto(1L);
+        var response = service.readByIdDto(1L);
         //THEN
         Mockito.verify(repository).readById(1L);
         Assertions.assertEquals(expected, response);

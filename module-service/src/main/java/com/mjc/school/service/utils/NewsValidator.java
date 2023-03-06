@@ -1,11 +1,15 @@
-package com.mjc.school.repository.utils;
+package com.mjc.school.service.utils;
 
 import com.mjc.school.repository.model.AuthorModel;
 import com.mjc.school.repository.model.PieceOfNewsModel;
+import com.mjc.school.service.exception.AuthorNameException;
+import com.mjc.school.service.exception.ContentLengthException;
+import com.mjc.school.service.exception.NewsNotFoundException;
+import com.mjc.school.service.exception.TitleLengthException;
 
 import java.util.Map;
 
-public final class RepositoryUtils {
+public final class NewsValidator {
 
     public static boolean isAuthorValid(String author) {
         return author.length() > 2 && author.length() < 16;
@@ -43,7 +47,7 @@ public final class RepositoryUtils {
         }
     }
 
-    private RepositoryUtils() {
+    private NewsValidator() {
         throw new UnsupportedOperationException();
     }
 

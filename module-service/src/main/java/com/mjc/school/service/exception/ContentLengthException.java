@@ -1,4 +1,4 @@
-package com.mjc.school.repository.utils;
+package com.mjc.school.service.exception;
 
 public class ContentLengthException extends CodedException{
 

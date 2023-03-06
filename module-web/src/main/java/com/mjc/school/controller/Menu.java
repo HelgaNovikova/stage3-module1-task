@@ -1,6 +1,6 @@
 package com.mjc.school.controller;
 
-import com.mjc.school.repository.utils.CodedException;
+import com.mjc.school.service.exception.CodedException;
 import com.mjc.school.service.NewsService;
 import com.mjc.school.service.dto.PieceOfNewsCreateDto;
 import com.mjc.school.service.dto.PieceOfNewsUpdateDto;
@@ -26,7 +26,7 @@ public class Menu {
         menu.put(1, new MenuItem(1, "Get all news.") {
             @Override
             public void run(Scanner sc) {
-                System.out.println(service.getAllNewsDto());
+                System.out.println(service.readAllDto());
                 showMenu();
             }
         });
@@ -36,7 +36,7 @@ public class Menu {
             public void run(Scanner sc) {
                 System.out.println("Operation: Get news by id.\n" + "Enter news id:");
                 Long newsId = sc.nextLong();
-                System.out.println(service.getNewsByIdDto(newsId));
+                System.out.println(service.readByIdDto(newsId));
                 showMenu();
             }
         });

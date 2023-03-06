@@ -4,7 +4,7 @@ import com.mjc.school.repository.Repository;
 import com.mjc.school.repository.model.AuthorModel;
 import com.mjc.school.repository.model.PieceOfNewsModel;
 import com.mjc.school.repository.utils.DataSource;
-import com.mjc.school.repository.utils.RepositoryUtils;
+import com.mjc.school.service.utils.NewsValidator;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -29,13 +29,13 @@ public class FileRepository implements Repository {
 
     @Override
     public PieceOfNewsModel readById(Long id) {
-        RepositoryUtils.validateNewsPresence(id, dataSource.getNews());
+        NewsValidator.validateNewsPresence(id, dataSource.getNews());
         return dataSource.getNews().get(id);
     }
 
     @Override
     public Boolean deletePieceOfNewsById(Long id) {
-        RepositoryUtils.validateNewsPresence(id, dataSource.getNews());
+        NewsValidator.validateNewsPresence(id, dataSource.getNews());
         return dataSource.getNews().remove(id) != null;
     }
 
@@ -51,11 +51,11 @@ public class FileRepository implements Repository {
 
     private PieceOfNewsModel save(PieceOfNewsModel pieceOfNews) {
         if (pieceOfNews.getId() != null) {
-            RepositoryUtils.validateNewsPresence(pieceOfNews.getId(), dataSource.getNews());
+            NewsValidator.validateNewsPresence(pieceOfNews.getId(), dataSource.getNews());
         }
-        RepositoryUtils.validateContent(pieceOfNews.getContent());
-        RepositoryUtils.validateTitle(pieceOfNews.getTitle());
-        RepositoryUtils.validateAuthorPresence(pieceOfNews.getAuthor());
+        NewsValidator.validateContent(pieceOfNews.getContent());
+        NewsValidator.validateTitle(pieceOfNews.getTitle());
+        NewsValidator.validateAuthorPresence(pieceOfNews.getAuthor());
 
         if (pieceOfNews.getId() == null) {
             pieceOfNews.setId(dataSource.getNextId());
