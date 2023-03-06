@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NewsServiceImpl implements NewsService {
-    private Repository newsRepository;
+    private final Repository newsRepository;
     private NewsValidator newsValidator;
 
     public NewsServiceImpl(Repository repo) {
@@ -36,18 +36,25 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public PieceOfNewsResponseDto readByIdDto(Long id) {
         PieceOfNewsModel news = newsRepository.readById(id);
+        NewsValidator.validateNewsPresence(id, news);
         return NewsMapper.INSTANCE.newsToNewsResponseDto(news);
     }
 
     @Override
     public Boolean deleteNewsByIdDto(Long id) {
+        PieceOfNewsModel newsModel = newsRepository.readById(id);
+        NewsValidator.validateNewsPresence(id, newsModel);
         return newsRepository.deletePieceOfNewsById(id);
     }
 
     @Override
     public PieceOfNewsResponseDto updatePieceOfNewsByIdDto(PieceOfNewsUpdateDto dto) {
         AuthorModel author = getAuthorById(dto.getAuthorId());
-        LocalDateTime createDate = newsRepository.readById(dto.getId()).getCreateDate();
+        PieceOfNewsModel newsModel = newsRepository.readById(dto.getId());
+        NewsValidator.validateNewsPresence(dto.getId(), newsModel);
+        NewsValidator.validateContent(dto.getContent());
+        NewsValidator.validateTitle(dto.getTitle());
+        LocalDateTime createDate = newsModel.getCreateDate();
         PieceOfNewsModel news = NewsMapper.INSTANCE.updateNewsDtoToNews(dto, author, createDate);
         return NewsMapper.INSTANCE.newsToNewsResponseDto(newsRepository.update(news));
     }
@@ -64,6 +71,8 @@ public class NewsServiceImpl implements NewsService {
     public PieceOfNewsResponseDto createPieceOfNewsDto(PieceOfNewsCreateDto dto) {
         AuthorModel author = getAuthorById(dto.getAuthorId());
         PieceOfNewsModel news = NewsMapper.INSTANCE.createNewsDtoToNews(dto, author);
+        NewsValidator.validateContent(news.getContent());
+        NewsValidator.validateTitle(news.getTitle());
         return NewsMapper.INSTANCE.newsToNewsResponseDto(newsRepository.create(news));
     }
 }

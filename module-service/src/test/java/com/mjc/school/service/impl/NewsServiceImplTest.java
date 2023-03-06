@@ -72,6 +72,7 @@ class NewsServiceImplTest {
 
     @Test
     void deleteNewsByIdDto() {
+        Mockito.when(repository.readById(1L)).thenReturn(pieceOfNews);
         Mockito.when(repository.deletePieceOfNewsById(1L)).thenReturn(true);
         var response = service.deleteNewsByIdDto(1L);
         Assertions.assertEquals(response, true);

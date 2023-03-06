@@ -7,8 +7,6 @@ import com.mjc.school.service.exception.ContentLengthException;
 import com.mjc.school.service.exception.NewsNotFoundException;
 import com.mjc.school.service.exception.TitleLengthException;
 
-import java.util.Map;
-
 public final class NewsValidator {
 
     public static boolean isAuthorValid(String author) {
@@ -41,19 +39,13 @@ public final class NewsValidator {
         }
     }
 
-    public static void validateNewsPresence(long id, Map<Long, PieceOfNewsModel> news) {
-        if (!news.containsKey(id)) {
+    public static void validateNewsPresence(long id, PieceOfNewsModel news) {
+        if (news == null) {
             throw new NewsNotFoundException(" News with id " + id + " does not exist.");
         }
     }
 
     private NewsValidator() {
         throw new UnsupportedOperationException();
-    }
-
-    public static void validateAuthorPresence(AuthorModel author) {
-        if (author == null) {
-            throw new IllegalArgumentException("Should not be null");
-        }
     }
 }

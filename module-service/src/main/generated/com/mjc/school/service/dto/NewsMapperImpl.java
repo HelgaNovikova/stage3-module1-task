@@ -2,14 +2,13 @@ package com.mjc.school.service.dto;
 
 import com.mjc.school.repository.model.AuthorModel;
 import com.mjc.school.repository.model.PieceOfNewsModel;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-03-05T20:37:18-0500",
+    date = "2023-03-05T22:10:11-0500",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 17.0.3.1 (Oracle Corporation)"
 )
 public class NewsMapperImpl implements NewsMapper {
@@ -59,9 +58,9 @@ public class NewsMapperImpl implements NewsMapper {
         LocalDateTime createDate = null;
         Long id = null;
 
-        PieceOfNewsModel pieceOfNews = new PieceOfNewsModel( id, title, content, createDate, lastUpdateDate, author1 );
+        PieceOfNewsModel pieceOfNewsModel = new PieceOfNewsModel( id, title, content, createDate, lastUpdateDate, author1 );
 
-        return pieceOfNews;
+        return pieceOfNewsModel;
     }
 
     @Override
@@ -85,16 +84,16 @@ public class NewsMapperImpl implements NewsMapper {
 
         LocalDateTime lastUpdateDate = null;
 
-        PieceOfNewsModel pieceOfNews = new PieceOfNewsModel( id, title, content, createDate1, lastUpdateDate, author1 );
+        PieceOfNewsModel pieceOfNewsModel = new PieceOfNewsModel( id, title, content, createDate1, lastUpdateDate, author1 );
 
-        return pieceOfNews;
+        return pieceOfNewsModel;
     }
 
-    private long pieceOfNewsAuthorId(PieceOfNewsModel pieceOfNews) {
-        if ( pieceOfNews == null ) {
+    private long pieceOfNewsAuthorId(PieceOfNewsModel pieceOfNewsModel) {
+        if ( pieceOfNewsModel == null ) {
             return 0L;
         }
-        AuthorModel author = pieceOfNews.getAuthor();
+        AuthorModel author = pieceOfNewsModel.getAuthor();
         if ( author == null ) {
             return 0L;
         }
