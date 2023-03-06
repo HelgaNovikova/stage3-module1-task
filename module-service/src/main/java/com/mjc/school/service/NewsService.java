@@ -6,7 +6,7 @@ import com.mjc.school.service.dto.PieceOfNewsUpdateDto;
 
 import java.util.List;
 
-public interface NewsService {
+public interface NewsService<T,D> {
     List<PieceOfNewsResponseDto> readAllDto();
     PieceOfNewsResponseDto readByIdDto(Long id);
     Boolean deleteNewsByIdDto(Long id);
