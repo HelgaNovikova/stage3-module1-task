@@ -1,8 +1,8 @@
 package com.mjc.school.repository.utils;
 
 import com.mjc.school.repository.impl.FileRepository;
-import com.mjc.school.repository.model.Author;
-import com.mjc.school.repository.model.PieceOfNews;
+import com.mjc.school.repository.model.AuthorModel;
+import com.mjc.school.repository.model.PieceOfNewsModel;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,13 +14,13 @@ import java.util.*;
 public class DataSource {
     public static final int DEFAULT_NEWS_COUNT_TO_GENERATE = 20;
 
-    private List<Author> readAuthorsFromFile(String path) {
+    private List<AuthorModel> readAuthorsFromFile(String path) {
         List<String> lines = readFromFile(path);
         long id = 1;
-        List<Author> authorsFromFile = new ArrayList<>();
+        List<AuthorModel> authorsFromFile = new ArrayList<>();
         for (String line : lines) {
             if (RepositoryUtils.isAuthorValid(line)) {
-                authorsFromFile.add(new Author(id, line));
+                authorsFromFile.add(new AuthorModel(id, line));
                 id++;
             }
         }
@@ -51,15 +51,15 @@ public class DataSource {
         }
     }
 
-    private final Map<Long, PieceOfNews> news = new HashMap<>();
+    private final Map<Long, PieceOfNewsModel> news = new HashMap<>();
 
-    public Map<Long, PieceOfNews> getNews() {
+    public Map<Long, PieceOfNewsModel> getNews() {
         return news;
     }
 
-    private final Map<Long, Author> authors = new HashMap<>();
+    private final Map<Long, AuthorModel> authors = new HashMap<>();
 
-    public Map<Long, Author> getAuthors() {
+    public Map<Long, AuthorModel> getAuthors() {
         return authors;
     }
 
@@ -71,7 +71,7 @@ public class DataSource {
 
     public void generateNews(String titlesPath, String authorsPath, String contentPath) {
         List<String> titlesFromFile = readTitlesFromFiles(titlesPath);
-        List<Author> authorsFromFile = readAuthorsFromFile(authorsPath);
+        List<AuthorModel> authorsFromFile = readAuthorsFromFile(authorsPath);
         List<String> contentFromFile = readContentsFromFile(contentPath);
         for (int i = 0; i < DEFAULT_NEWS_COUNT_TO_GENERATE; i++) {
             Random randomNum = new Random();
@@ -80,10 +80,10 @@ public class DataSource {
             int indexT = randomNum.nextInt(0, titlesFromFile.size());
             String tmpTitle = titlesFromFile.get(indexT);
             int indexA = randomNum.nextInt(0, authorsFromFile.size());
-            Author tmpAuthor = authorsFromFile.get(indexA);
+            AuthorModel tmpAuthor = authorsFromFile.get(indexA);
             long id = this.lastNewsIndex++;
             LocalDateTime now = LocalDateTime.now();
-            news.put(id, new PieceOfNews(id, tmpTitle, tmpContent, now, now, tmpAuthor));
+            news.put(id, new PieceOfNewsModel(id, tmpTitle, tmpContent, now, now, tmpAuthor));
             authors.put(tmpAuthor.getId(), tmpAuthor);
             contentFromFile.remove(indexC);
             titlesFromFile.remove(indexT);

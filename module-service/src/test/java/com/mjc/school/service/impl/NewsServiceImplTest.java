@@ -1,8 +1,8 @@
 package com.mjc.school.service.impl;
 
 import com.mjc.school.repository.Repository;
-import com.mjc.school.repository.model.Author;
-import com.mjc.school.repository.model.PieceOfNews;
+import com.mjc.school.repository.model.AuthorModel;
+import com.mjc.school.repository.model.PieceOfNewsModel;
 import com.mjc.school.service.dto.PieceOfNewsCreateDto;
 import com.mjc.school.service.dto.PieceOfNewsResponseDto;
 import com.mjc.school.service.dto.PieceOfNewsUpdateDto;
@@ -13,7 +13,6 @@ import org.mockito.Mockito;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -22,7 +21,7 @@ class NewsServiceImplTest {
 
     private Repository repository;
     private NewsServiceImpl service;
-    private PieceOfNews pieceOfNews;
+    private PieceOfNewsModel pieceOfNews;
     private LocalDateTime now;
 
     @BeforeEach
@@ -30,13 +29,13 @@ class NewsServiceImplTest {
         repository = Mockito.mock(Repository.class);
         service = new NewsServiceImpl(repository);
         now = LocalDateTime.of(2023, 3, 5, 12, 0, 30);
-        pieceOfNews = new PieceOfNews(1L, "title", "content", now, now, new Author(1L, "name"));
+        pieceOfNews = new PieceOfNewsModel(1L, "title", "content", now, now, new AuthorModel(1L, "name"));
     }
 
     @Test
     void getAllNewsDto() {
         //GIVEN
-        Mockito.when(repository.readAll()).thenReturn(Map.of(1L, pieceOfNews));
+        Mockito.when(repository.readAll()).thenReturn(List.of(pieceOfNews));
         PieceOfNewsResponseDto expected = new PieceOfNewsResponseDto();
         expected.setContent(pieceOfNews.getContent());
         expected.setId(pieceOfNews.getId());
@@ -65,7 +64,7 @@ class NewsServiceImplTest {
         expected.setCreateDate(date);
         expected.setLastUpdateDate(date);
         //WHEN
-        var response = service.getNewsByIdDto(1);
+        var response = service.getNewsByIdDto(1L);
         //THEN
         Mockito.verify(repository).readById(1L);
         Assertions.assertEquals(expected, response);
@@ -82,9 +81,9 @@ class NewsServiceImplTest {
     @Test
     void updatePieceOfNewsByIdDto() {
         //GIVEN
-        Author author = new Author(1, "name");
+        AuthorModel author = new AuthorModel(1, "name");
         PieceOfNewsUpdateDto dto = new PieceOfNewsUpdateDto(1, "new Title", "new Content", 1);
-        PieceOfNews updatedNews = new PieceOfNews(1L, "new Title", "new Content", now, now,
+        PieceOfNewsModel updatedNews = new PieceOfNewsModel(1L, "new Title", "new Content", now, now,
                 author);
         Mockito.when(repository.update(any())).thenReturn(updatedNews);
         Mockito.when(repository.getAuthorById(anyLong())).thenReturn(author);
@@ -107,9 +106,9 @@ class NewsServiceImplTest {
     @Test
     void createPieceOfNewsDto() {
         //GIVEN
-        Author author = new Author(1, "name");
+        AuthorModel author = new AuthorModel(1, "name");
         PieceOfNewsCreateDto dto = new PieceOfNewsCreateDto(1, "new Title", "new Content");
-        PieceOfNews createdNews = new PieceOfNews(1L, "new Title", "new Content", now, now,
+        PieceOfNewsModel createdNews = new PieceOfNewsModel(1L, "new Title", "new Content", now, now,
                 author);
         Mockito.when(repository.create(any())).thenReturn(createdNews);
         Mockito.when(repository.getAuthorById(anyLong())).thenReturn(author);

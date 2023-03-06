@@ -1,7 +1,8 @@
 package com.mjc.school.service.dto;
 
-import com.mjc.school.repository.model.Author;
-import com.mjc.school.repository.model.PieceOfNews;
+import com.mjc.school.repository.model.AuthorModel;
+import com.mjc.school.repository.model.PieceOfNewsModel;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import javax.annotation.processing.Generated;
@@ -16,7 +17,7 @@ public class NewsMapperImpl implements NewsMapper {
     private final DateTimeFormatter dateTimeFormatter_yyyy_MM_dd_T_HH_mm_ss_SSS_0756264385 = DateTimeFormatter.ofPattern( "yyyy-MM-dd'T'HH:mm:ss.SSS" );
 
     @Override
-    public PieceOfNewsResponseDto newsToNewsResponseDto(PieceOfNews pieceOfNews) {
+    public PieceOfNewsResponseDto newsToNewsResponseDto(PieceOfNewsModel pieceOfNews) {
         if ( pieceOfNews == null ) {
             return null;
         }
@@ -40,7 +41,7 @@ public class NewsMapperImpl implements NewsMapper {
     }
 
     @Override
-    public PieceOfNews createNewsDtoToNews(PieceOfNewsCreateDto dto, Author author) {
+    public PieceOfNewsModel createNewsDtoToNews(PieceOfNewsCreateDto dto, AuthorModel author) {
         if ( dto == null && author == null ) {
             return null;
         }
@@ -51,20 +52,20 @@ public class NewsMapperImpl implements NewsMapper {
             title = dto.getTitle();
             content = dto.getContent();
         }
-        Author author1 = null;
+        AuthorModel author1 = null;
         author1 = author;
 
         LocalDateTime lastUpdateDate = null;
         LocalDateTime createDate = null;
         Long id = null;
 
-        PieceOfNews pieceOfNews = new PieceOfNews( id, title, content, createDate, lastUpdateDate, author1 );
+        PieceOfNewsModel pieceOfNews = new PieceOfNewsModel( id, title, content, createDate, lastUpdateDate, author1 );
 
         return pieceOfNews;
     }
 
     @Override
-    public PieceOfNews updateNewsDtoToNews(PieceOfNewsUpdateDto dto, Author author, LocalDateTime createDate) {
+    public PieceOfNewsModel updateNewsDtoToNews(PieceOfNewsUpdateDto dto, AuthorModel author, LocalDateTime createDate) {
         if ( dto == null && author == null && createDate == null ) {
             return null;
         }
@@ -77,23 +78,23 @@ public class NewsMapperImpl implements NewsMapper {
             content = dto.getContent();
             id = dto.getId();
         }
-        Author author1 = null;
+        AuthorModel author1 = null;
         author1 = author;
         LocalDateTime createDate1 = null;
         createDate1 = createDate;
 
         LocalDateTime lastUpdateDate = null;
 
-        PieceOfNews pieceOfNews = new PieceOfNews( id, title, content, createDate1, lastUpdateDate, author1 );
+        PieceOfNewsModel pieceOfNews = new PieceOfNewsModel( id, title, content, createDate1, lastUpdateDate, author1 );
 
         return pieceOfNews;
     }
 
-    private long pieceOfNewsAuthorId(PieceOfNews pieceOfNews) {
+    private long pieceOfNewsAuthorId(PieceOfNewsModel pieceOfNews) {
         if ( pieceOfNews == null ) {
             return 0L;
         }
-        Author author = pieceOfNews.getAuthor();
+        AuthorModel author = pieceOfNews.getAuthor();
         if ( author == null ) {
             return 0L;
         }

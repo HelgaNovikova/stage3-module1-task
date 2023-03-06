@@ -1,18 +1,16 @@
 package com.mjc.school.repository.model;
 
-import com.mjc.school.repository.model.Author;
-
 import java.time.LocalDateTime;
 
-public class PieceOfNews {
+public class PieceOfNewsModel {
     private Long id;
     private String title;
     private String content;
     private LocalDateTime createDate;
     private LocalDateTime lastUpdateDate;
-    private Author author;
+    private AuthorModel author;
 
-    public PieceOfNews(Long id, String title, String content, LocalDateTime createDate, LocalDateTime lastUpdateDate, Author author) {
+    public PieceOfNewsModel(Long id, String title, String content, LocalDateTime createDate, LocalDateTime lastUpdateDate, AuthorModel author) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -61,11 +59,11 @@ public class PieceOfNews {
         this.lastUpdateDate = lastUpdateDate;
     }
 
-    public Author getAuthor() {
+    public AuthorModel getAuthor() {
         return author;
     }
 
-    public void setAuthor(Author author) {
+    public void setAuthor(AuthorModel author) {
         this.author = author;
     }
 }

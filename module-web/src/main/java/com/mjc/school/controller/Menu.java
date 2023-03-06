@@ -35,7 +35,7 @@ public class Menu {
             @Override
             public void run(Scanner sc) {
                 System.out.println("Operation: Get news by id.\n" + "Enter news id:");
-                int newsId = sc.nextInt();
+                Long newsId = sc.nextLong();
                 System.out.println(service.getNewsByIdDto(newsId));
                 showMenu();
             }
@@ -88,7 +88,7 @@ public class Menu {
             @Override
             public void run(Scanner sc) {
                 System.out.println("Operation: Remove news by id.\n" + "Enter news id:");
-                int newsId = sc.nextInt();
+                Long newsId = sc.nextLong();
                 System.out.println(service.deleteNewsByIdDto(newsId));
                 showMenu();
             }

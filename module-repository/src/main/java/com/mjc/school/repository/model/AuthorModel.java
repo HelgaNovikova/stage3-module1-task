@@ -2,11 +2,11 @@ package com.mjc.school.repository.model;
 
 import java.util.Objects;
 
-public class Author {
+public class AuthorModel {
     private long id;
     private String name;
 
-    public Author(long id, String name) {
+    public AuthorModel(long id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -19,7 +19,7 @@ public class Author {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Author author = (Author) o;
+        AuthorModel author = (AuthorModel) o;
         return id == author.id && Objects.equals(name, author.name);
     }
 

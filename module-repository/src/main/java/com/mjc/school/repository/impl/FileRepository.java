@@ -1,13 +1,13 @@
 package com.mjc.school.repository.impl;
 
 import com.mjc.school.repository.Repository;
-import com.mjc.school.repository.model.Author;
-import com.mjc.school.repository.model.PieceOfNews;
+import com.mjc.school.repository.model.AuthorModel;
+import com.mjc.school.repository.model.PieceOfNewsModel;
 import com.mjc.school.repository.utils.DataSource;
 import com.mjc.school.repository.utils.RepositoryUtils;
 
 import java.time.LocalDateTime;
-import java.util.Map;
+import java.util.List;
 
 public class FileRepository implements Repository {
 
@@ -18,38 +18,38 @@ public class FileRepository implements Repository {
     }
 
     @Override
-    public Author getAuthorById(long authorId) {
+    public AuthorModel getAuthorById(Long authorId) {
         return dataSource.getAuthors().get(authorId);
     }
 
     @Override
-    public Map<Long, PieceOfNews> readAll() {
-        return dataSource.getNews();
+    public List<PieceOfNewsModel> readAll() {
+        return dataSource.getNews().values().stream().toList();
     }
 
     @Override
-    public PieceOfNews readById(long id) {
+    public PieceOfNewsModel readById(Long id) {
         RepositoryUtils.validateNewsPresence(id, dataSource.getNews());
         return dataSource.getNews().get(id);
     }
 
     @Override
-    public Boolean deletePieceOfNewsById(long id) {
+    public Boolean deletePieceOfNewsById(Long id) {
         RepositoryUtils.validateNewsPresence(id, dataSource.getNews());
         return dataSource.getNews().remove(id) != null;
     }
 
     @Override
-    public PieceOfNews create(PieceOfNews pieceOfNews) {
+    public PieceOfNewsModel create(PieceOfNewsModel pieceOfNews) {
         return save(pieceOfNews);
     }
 
     @Override
-    public PieceOfNews update(PieceOfNews pieceOfNews) {
+    public PieceOfNewsModel update(PieceOfNewsModel pieceOfNews) {
         return save(pieceOfNews);
     }
 
-    private PieceOfNews save(PieceOfNews pieceOfNews) {
+    private PieceOfNewsModel save(PieceOfNewsModel pieceOfNews) {
         if (pieceOfNews.getId() != null) {
             RepositoryUtils.validateNewsPresence(pieceOfNews.getId(), dataSource.getNews());
         }

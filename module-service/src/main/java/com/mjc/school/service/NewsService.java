@@ -8,8 +8,8 @@ import java.util.List;
 
 public interface NewsService {
     List<PieceOfNewsResponseDto> getAllNewsDto();
-    PieceOfNewsResponseDto getNewsByIdDto(int id);
-    boolean deleteNewsByIdDto(long id);
+    PieceOfNewsResponseDto getNewsByIdDto(Long id);
+    boolean deleteNewsByIdDto(Long id);
     PieceOfNewsResponseDto updatePieceOfNewsByIdDto(PieceOfNewsUpdateDto dto);
     PieceOfNewsResponseDto createPieceOfNewsDto(PieceOfNewsCreateDto dto);
 

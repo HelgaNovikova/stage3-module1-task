@@ -1,7 +1,7 @@
 package com.mjc.school.repository.utils;
 
-import com.mjc.school.repository.model.Author;
-import com.mjc.school.repository.model.PieceOfNews;
+import com.mjc.school.repository.model.AuthorModel;
+import com.mjc.school.repository.model.PieceOfNewsModel;
 
 import java.util.Map;
 
@@ -37,7 +37,7 @@ public final class RepositoryUtils {
         }
     }
 
-    public static void validateNewsPresence(long id, Map<Long, PieceOfNews> news) {
+    public static void validateNewsPresence(long id, Map<Long, PieceOfNewsModel> news) {
         if (!news.containsKey(id)) {
             throw new NewsNotFoundException(" News with id " + id + " does not exist.");
         }
@@ -47,7 +47,7 @@ public final class RepositoryUtils {
         throw new UnsupportedOperationException();
     }
 
-    public static void validateAuthorPresence(Author author) {
+    public static void validateAuthorPresence(AuthorModel author) {
         if (author == null) {
             throw new IllegalArgumentException("Should not be null");
         }

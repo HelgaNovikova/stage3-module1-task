@@ -1,7 +1,7 @@
 package com.mjc.school.service.dto;
 
-import com.mjc.school.repository.model.Author;
-import com.mjc.school.repository.model.PieceOfNews;
+import com.mjc.school.repository.model.AuthorModel;
+import com.mjc.school.repository.model.PieceOfNewsModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -18,7 +18,7 @@ public interface NewsMapper {
     @Mapping(target = "createDate",
             dateFormat = ISO_FORMAT)
     @Mapping(target = "authorId", source = "author.id")
-    PieceOfNewsResponseDto newsToNewsResponseDto(PieceOfNews pieceOfNews);
+    PieceOfNewsResponseDto newsToNewsResponseDto(PieceOfNewsModel pieceOfNews);
 
     @Mapping(source = "author", target = "author")
     @Mapping(source = "dto.title", target = "title")
@@ -26,13 +26,13 @@ public interface NewsMapper {
     @Mapping(target = "lastUpdateDate", ignore = true)
     @Mapping(target = "createDate", ignore = true)
     @Mapping(target = "id", ignore = true)
-    PieceOfNews createNewsDtoToNews(PieceOfNewsCreateDto dto, Author author);
+    PieceOfNewsModel createNewsDtoToNews(PieceOfNewsCreateDto dto, AuthorModel author);
 
     @Mapping(source = "author", target = "author")
     @Mapping(source = "dto.title", target = "title")
     @Mapping(source = "dto.content", target = "content")
     @Mapping(source = "dto.id", target = "id")
     @Mapping(target = "lastUpdateDate", ignore = true)
-    PieceOfNews updateNewsDtoToNews(PieceOfNewsUpdateDto dto, Author author, LocalDateTime createDate);
+    PieceOfNewsModel updateNewsDtoToNews(PieceOfNewsUpdateDto dto, AuthorModel author, LocalDateTime createDate);
 
 }

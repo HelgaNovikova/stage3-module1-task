@@ -1,19 +1,19 @@
 package com.mjc.school.repository;
 
-import com.mjc.school.repository.model.Author;
-import com.mjc.school.repository.model.PieceOfNews;
+import com.mjc.school.repository.model.AuthorModel;
+import com.mjc.school.repository.model.PieceOfNewsModel;
 
-import java.util.Map;
+import java.util.List;
 
 public interface Repository {
 
-    Map<Long, PieceOfNews> readAll();
-    PieceOfNews readById(long id);
-    Boolean deletePieceOfNewsById(long id);
+    List<PieceOfNewsModel> readAll();
+    PieceOfNewsModel readById(Long id);
+    Boolean deletePieceOfNewsById(Long id);
 
-    PieceOfNews create(PieceOfNews pieceOfNews);
+    PieceOfNewsModel create(PieceOfNewsModel pieceOfNews);
 
-    Author getAuthorById(long authorId);
+    AuthorModel getAuthorById(Long authorId);
 
-    PieceOfNews update(PieceOfNews pieceOfNews);
+    PieceOfNewsModel update(PieceOfNewsModel pieceOfNews);
 }
