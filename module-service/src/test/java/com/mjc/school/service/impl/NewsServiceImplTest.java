@@ -6,6 +6,7 @@ import com.mjc.school.repository.model.PieceOfNewsModel;
 import com.mjc.school.service.dto.PieceOfNewsCreateDto;
 import com.mjc.school.service.dto.PieceOfNewsResponseDto;
 import com.mjc.school.service.dto.PieceOfNewsUpdateDto;
+import com.mjc.school.service.utils.NewsValidator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +20,7 @@ import static org.mockito.ArgumentMatchers.anyLong;
 
 class NewsServiceImplTest {
 
-    private Repository repository;
+    private Repository<PieceOfNewsModel> repository;
     private NewsServiceImpl service;
     private PieceOfNewsModel pieceOfNews;
     private LocalDateTime now;
@@ -27,7 +28,7 @@ class NewsServiceImplTest {
     @BeforeEach
     void setUp() {
         repository = Mockito.mock(Repository.class);
-        service = new NewsServiceImpl(repository);
+        service = new NewsServiceImpl(repository, new NewsValidator());
         now = LocalDateTime.of(2023, 3, 5, 12, 0, 30);
         pieceOfNews = new PieceOfNewsModel(1L, "title", "content", now, now, new AuthorModel(1L, "name"));
     }

@@ -16,11 +16,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NewsServiceImpl implements NewsService {
-    private final Repository newsRepository;
-    private NewsValidator newsValidator;
+    private final Repository<PieceOfNewsModel> newsRepository;
+    private final NewsValidator newsValidator;
 
-    public NewsServiceImpl(Repository repo) {
-        this.newsRepository = repo;
+    public NewsServiceImpl(Repository<PieceOfNewsModel> repository, NewsValidator newsValidator) {
+        this.newsRepository = repository;
+        this.newsValidator = newsValidator;
     }
 
     @Override

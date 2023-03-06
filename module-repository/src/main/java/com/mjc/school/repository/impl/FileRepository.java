@@ -8,7 +8,7 @@ import com.mjc.school.repository.utils.DataSource;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class FileRepository implements Repository {
+public class FileRepository implements Repository<PieceOfNewsModel> {
 
     private final DataSource dataSource;
 

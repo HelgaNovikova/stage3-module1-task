@@ -1,6 +1,5 @@
 package com.mjc.school.service.utils;
 
-import com.mjc.school.repository.model.AuthorModel;
 import com.mjc.school.repository.model.PieceOfNewsModel;
 import com.mjc.school.service.exception.AuthorNameException;
 import com.mjc.school.service.exception.ContentLengthException;
@@ -43,9 +42,5 @@ public final class NewsValidator {
         if (news == null) {
             throw new NewsNotFoundException(" News with id " + id + " does not exist.");
         }
-    }
-
-    private NewsValidator() {
-        throw new UnsupportedOperationException();
     }
 }
