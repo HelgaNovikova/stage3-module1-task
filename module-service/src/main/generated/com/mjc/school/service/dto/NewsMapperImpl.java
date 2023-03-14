@@ -1,14 +1,14 @@
 package com.mjc.school.service.dto;
 
 import com.mjc.school.repository.model.AuthorModel;
-import com.mjc.school.repository.model.PieceOfNewsModel;
+import com.mjc.school.repository.model.NewsModel;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-03-05T22:10:11-0500",
+    date = "2023-03-09T14:06:22-0500",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 17.0.3.1 (Oracle Corporation)"
 )
 public class NewsMapperImpl implements NewsMapper {
@@ -16,31 +16,31 @@ public class NewsMapperImpl implements NewsMapper {
     private final DateTimeFormatter dateTimeFormatter_yyyy_MM_dd_T_HH_mm_ss_SSS_0756264385 = DateTimeFormatter.ofPattern( "yyyy-MM-dd'T'HH:mm:ss.SSS" );
 
     @Override
-    public PieceOfNewsResponseDto newsToNewsResponseDto(PieceOfNewsModel pieceOfNews) {
+    public NewsResponseDto newsToNewsResponseDto(NewsModel pieceOfNews) {
         if ( pieceOfNews == null ) {
             return null;
         }
 
-        PieceOfNewsResponseDto pieceOfNewsResponseDto = new PieceOfNewsResponseDto();
+        NewsResponseDto newsResponseDto = new NewsResponseDto();
 
         if ( pieceOfNews.getLastUpdateDate() != null ) {
-            pieceOfNewsResponseDto.setLastUpdateDate( dateTimeFormatter_yyyy_MM_dd_T_HH_mm_ss_SSS_0756264385.format( pieceOfNews.getLastUpdateDate() ) );
+            newsResponseDto.setLastUpdateDate( dateTimeFormatter_yyyy_MM_dd_T_HH_mm_ss_SSS_0756264385.format( pieceOfNews.getLastUpdateDate() ) );
         }
         if ( pieceOfNews.getCreateDate() != null ) {
-            pieceOfNewsResponseDto.setCreateDate( dateTimeFormatter_yyyy_MM_dd_T_HH_mm_ss_SSS_0756264385.format( pieceOfNews.getCreateDate() ) );
+            newsResponseDto.setCreateDate( dateTimeFormatter_yyyy_MM_dd_T_HH_mm_ss_SSS_0756264385.format( pieceOfNews.getCreateDate() ) );
         }
-        pieceOfNewsResponseDto.setAuthorId( pieceOfNewsAuthorId( pieceOfNews ) );
+        newsResponseDto.setAuthorId( pieceOfNewsAuthorId( pieceOfNews ) );
         if ( pieceOfNews.getId() != null ) {
-            pieceOfNewsResponseDto.setId( pieceOfNews.getId() );
+            newsResponseDto.setId( pieceOfNews.getId() );
         }
-        pieceOfNewsResponseDto.setTitle( pieceOfNews.getTitle() );
-        pieceOfNewsResponseDto.setContent( pieceOfNews.getContent() );
+        newsResponseDto.setTitle( pieceOfNews.getTitle() );
+        newsResponseDto.setContent( pieceOfNews.getContent() );
 
-        return pieceOfNewsResponseDto;
+        return newsResponseDto;
     }
 
     @Override
-    public PieceOfNewsModel createNewsDtoToNews(PieceOfNewsCreateDto dto, AuthorModel author) {
+    public NewsModel createNewsDtoToNews(NewsCreateDto dto, AuthorModel author) {
         if ( dto == null && author == null ) {
             return null;
         }
@@ -58,13 +58,13 @@ public class NewsMapperImpl implements NewsMapper {
         LocalDateTime createDate = null;
         Long id = null;
 
-        PieceOfNewsModel pieceOfNewsModel = new PieceOfNewsModel( id, title, content, createDate, lastUpdateDate, author1 );
+        NewsModel newsModel = new NewsModel( id, title, content, createDate, lastUpdateDate, author1 );
 
-        return pieceOfNewsModel;
+        return newsModel;
     }
 
     @Override
-    public PieceOfNewsModel updateNewsDtoToNews(PieceOfNewsUpdateDto dto, AuthorModel author, LocalDateTime createDate) {
+    public NewsModel updateNewsDtoToNews(NewsUpdateDto dto, AuthorModel author, LocalDateTime createDate) {
         if ( dto == null && author == null && createDate == null ) {
             return null;
         }
@@ -84,16 +84,16 @@ public class NewsMapperImpl implements NewsMapper {
 
         LocalDateTime lastUpdateDate = null;
 
-        PieceOfNewsModel pieceOfNewsModel = new PieceOfNewsModel( id, title, content, createDate1, lastUpdateDate, author1 );
+        NewsModel newsModel = new NewsModel( id, title, content, createDate1, lastUpdateDate, author1 );
 
-        return pieceOfNewsModel;
+        return newsModel;
     }
 
-    private long pieceOfNewsAuthorId(PieceOfNewsModel pieceOfNewsModel) {
-        if ( pieceOfNewsModel == null ) {
+    private long pieceOfNewsAuthorId(NewsModel newsModel) {
+        if ( newsModel == null ) {
             return 0L;
         }
-        AuthorModel author = pieceOfNewsModel.getAuthor();
+        AuthorModel author = newsModel.getAuthor();
         if ( author == null ) {
             return 0L;
         }

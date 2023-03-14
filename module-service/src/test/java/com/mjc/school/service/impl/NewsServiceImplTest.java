@@ -2,10 +2,10 @@ package com.mjc.school.service.impl;
 
 import com.mjc.school.repository.Repository;
 import com.mjc.school.repository.model.AuthorModel;
-import com.mjc.school.repository.model.PieceOfNewsModel;
-import com.mjc.school.service.dto.PieceOfNewsCreateDto;
-import com.mjc.school.service.dto.PieceOfNewsResponseDto;
-import com.mjc.school.service.dto.PieceOfNewsUpdateDto;
+import com.mjc.school.repository.model.NewsModel;
+import com.mjc.school.service.dto.NewsCreateDto;
+import com.mjc.school.service.dto.NewsResponseDto;
+import com.mjc.school.service.dto.NewsUpdateDto;
 import com.mjc.school.service.utils.NewsValidator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,9 +20,9 @@ import static org.mockito.ArgumentMatchers.anyLong;
 
 class NewsServiceImplTest {
 
-    private Repository<PieceOfNewsModel> repository;
+    private Repository<NewsModel> repository;
     private NewsServiceImpl service;
-    private PieceOfNewsModel pieceOfNews;
+    private NewsModel pieceOfNews;
     private LocalDateTime now;
 
     @BeforeEach
@@ -30,21 +30,15 @@ class NewsServiceImplTest {
         repository = Mockito.mock(Repository.class);
         service = new NewsServiceImpl(repository, new NewsValidator());
         now = LocalDateTime.of(2023, 3, 5, 12, 0, 30);
-        pieceOfNews = new PieceOfNewsModel(1L, "title", "content", now, now, new AuthorModel(1L, "name"));
+        pieceOfNews = new NewsModel(1L, "title", "content", now, now, new AuthorModel(1L, "name"));
     }
 
     @Test
     void getAllNewsDto() {
         //GIVEN
         Mockito.when(repository.readAll()).thenReturn(List.of(pieceOfNews));
-        PieceOfNewsResponseDto expected = new PieceOfNewsResponseDto();
-        expected.setContent(pieceOfNews.getContent());
-        expected.setId(pieceOfNews.getId());
-        expected.setAuthorId(pieceOfNews.getAuthor().getId());
-        expected.setTitle(pieceOfNews.getTitle());
-        String date = "2023-03-05T12:00:30.000";
-        expected.setCreateDate(date);
-        expected.setLastUpdateDate(date);
+        NewsResponseDto expected = getExpectedNewsResponseDto(pieceOfNews.getContent(),
+                pieceOfNews.getId(), pieceOfNews.getAuthor().getId(), pieceOfNews.getTitle());
         //WHEN
         var response = service.readAllDto();
         //THEN
@@ -52,18 +46,24 @@ class NewsServiceImplTest {
         Assertions.assertEquals(List.of(expected), response);
     }
 
-    @Test
-    void getNewsByIdDto() {
-           //GIVEN
-        Mockito.when(repository.readById(1L)).thenReturn(pieceOfNews);
-        PieceOfNewsResponseDto expected = new PieceOfNewsResponseDto();
-        expected.setContent(pieceOfNews.getContent());
-        expected.setId(pieceOfNews.getId());
-        expected.setAuthorId(pieceOfNews.getAuthor().getId());
-        expected.setTitle(pieceOfNews.getTitle());
+    private NewsResponseDto getExpectedNewsResponseDto(String content, Long id, long authorId, String title) {
+        NewsResponseDto expected = new NewsResponseDto();
+        expected.setContent(content);
+        expected.setId(id);
+        expected.setAuthorId(authorId);
+        expected.setTitle(title);
         String date = "2023-03-05T12:00:30.000";
         expected.setCreateDate(date);
         expected.setLastUpdateDate(date);
+        return expected;
+    }
+
+    @Test
+    void getNewsByIdDto() {
+        //GIVEN
+        Mockito.when(repository.readById(1L)).thenReturn(pieceOfNews);
+        NewsResponseDto expected = getExpectedNewsResponseDto(pieceOfNews.getContent(),
+                pieceOfNews.getId(), pieceOfNews.getAuthor().getId(), pieceOfNews.getTitle());
         //WHEN
         var response = service.readByIdDto(1L);
         //THEN
@@ -84,22 +84,16 @@ class NewsServiceImplTest {
     void updatePieceOfNewsByIdDto() {
         //GIVEN
         AuthorModel author = new AuthorModel(1, "name");
-        PieceOfNewsUpdateDto dto = new PieceOfNewsUpdateDto(1, "new Title", "new Content", 1);
-        PieceOfNewsModel updatedNews = new PieceOfNewsModel(1L, "new Title", "new Content", now, now,
+        NewsUpdateDto dto = new NewsUpdateDto(1, "new Title", "new Content", 1);
+        NewsModel updatedNews = new NewsModel(1L, "new Title", "new Content", now, now,
                 author);
         Mockito.when(repository.update(any())).thenReturn(updatedNews);
         Mockito.when(repository.getAuthorById(anyLong())).thenReturn(author);
         Mockito.when(repository.readById(anyLong())).thenReturn(pieceOfNews);
-        PieceOfNewsResponseDto expected = new PieceOfNewsResponseDto();
-        expected.setContent(dto.getContent());
-        expected.setId(dto.getId());
-        expected.setAuthorId(dto.getAuthorId());
-        expected.setTitle(dto.getTitle());
-        String date = "2023-03-05T12:00:30.000";
-        expected.setCreateDate(date);
-        expected.setLastUpdateDate(date);
+        NewsResponseDto expected = getExpectedNewsResponseDto(dto.getContent(),
+                dto.getId(), dto.getAuthorId(), dto.getTitle());
         //WHEN
-        var response = service.updatePieceOfNewsByIdDto(dto);
+        var response = service.updateNewsByIdDto(dto);
         //THEN
         Mockito.verify(repository).update(any());
         Assertions.assertEquals(expected, response);
@@ -109,22 +103,14 @@ class NewsServiceImplTest {
     void createPieceOfNewsDto() {
         //GIVEN
         AuthorModel author = new AuthorModel(1, "name");
-        PieceOfNewsCreateDto dto = new PieceOfNewsCreateDto(1, "new Title", "new Content");
-        PieceOfNewsModel createdNews = new PieceOfNewsModel(1L, "new Title", "new Content", now, now,
+        NewsCreateDto dto = new NewsCreateDto(1, "new Title", "new Content");
+        NewsModel createdNews = new NewsModel(1L, "new Title", "new Content", now, now,
                 author);
         Mockito.when(repository.create(any())).thenReturn(createdNews);
         Mockito.when(repository.getAuthorById(anyLong())).thenReturn(author);
-      //  Mockito.when(repository.getPieceOfNewsById(anyLong())).thenReturn(pieceOfNews);
-        PieceOfNewsResponseDto expected = new PieceOfNewsResponseDto();
-        expected.setContent(dto.getContent());
-        expected.setAuthorId(dto.getAuthorId());
-        expected.setTitle(dto.getTitle());
-        expected.setId(1L);
-        String date = "2023-03-05T12:00:30.000";
-        expected.setCreateDate(date);
-        expected.setLastUpdateDate(date);
+        NewsResponseDto expected = getExpectedNewsResponseDto(dto.getContent(), 1L, dto.getAuthorId(), dto.getTitle());
         //WHEN
-        var response = service.createPieceOfNewsDto(dto);
+        var response = service.createNewsDto(dto);
         //THEN
         Mockito.verify(repository).create(any());
         Assertions.assertEquals(expected, response);

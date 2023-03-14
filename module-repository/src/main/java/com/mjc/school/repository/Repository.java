@@ -1,7 +1,7 @@
 package com.mjc.school.repository;
 
 import com.mjc.school.repository.model.AuthorModel;
-import com.mjc.school.repository.model.PieceOfNewsModel;
+import com.mjc.school.repository.model.NewsModel;
 
 import java.util.List;
 
@@ -11,9 +11,9 @@ public interface Repository<T> {
     T readById(Long id);
     Boolean deletePieceOfNewsById(Long id);
 
-    T create(PieceOfNewsModel pieceOfNews);
+    T create(NewsModel pieceOfNews);
 
     AuthorModel getAuthorById(Long authorId);
 
-    T update(PieceOfNewsModel pieceOfNews);
+    T update(NewsModel pieceOfNews);
 }

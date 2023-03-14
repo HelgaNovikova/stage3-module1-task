@@ -1,6 +1,6 @@
 package com.mjc.school.service.exception;
 
-public class TitleLengthException extends CodedException{
+public class TitleLengthException extends CustomException {
 
     public TitleLengthException(String message) {
         super(message);

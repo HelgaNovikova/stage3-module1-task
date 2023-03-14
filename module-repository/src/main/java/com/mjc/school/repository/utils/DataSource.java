@@ -2,7 +2,7 @@ package com.mjc.school.repository.utils;
 
 import com.mjc.school.repository.impl.FileRepository;
 import com.mjc.school.repository.model.AuthorModel;
-import com.mjc.school.repository.model.PieceOfNewsModel;
+import com.mjc.school.repository.model.NewsModel;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,6 +13,9 @@ import java.util.*;
 
 public class DataSource {
     public static final int DEFAULT_NEWS_COUNT_TO_GENERATE = 20;
+    private final Map<Long, NewsModel> news = new HashMap<>();
+    private final Map<Long, AuthorModel> authors = new HashMap<>();
+    private long lastNewsIndex = 0;
 
     private List<AuthorModel> readAuthorsFromFile(String path) {
         List<String> lines = readFromFile(path);
@@ -25,7 +28,6 @@ public class DataSource {
         }
         return authorsFromFile;
     }
-
 
     private List<String> readTitlesFromFiles(String titlePath) {
         return readFromFile(titlePath);
@@ -46,19 +48,13 @@ public class DataSource {
         }
     }
 
-    private final Map<Long, PieceOfNewsModel> news = new HashMap<>();
-
-    public Map<Long, PieceOfNewsModel> getNews() {
+    public Map<Long, NewsModel> getNews() {
         return news;
     }
-
-    private final Map<Long, AuthorModel> authors = new HashMap<>();
 
     public Map<Long, AuthorModel> getAuthors() {
         return authors;
     }
-
-    private long lastNewsIndex = 0;
 
     public long getNextId() {
         return ++lastNewsIndex;
@@ -78,7 +74,7 @@ public class DataSource {
             AuthorModel tmpAuthor = authorsFromFile.get(indexA);
             long id = this.lastNewsIndex++;
             LocalDateTime now = LocalDateTime.now();
-            news.put(id, new PieceOfNewsModel(id, tmpTitle, tmpContent, now, now, tmpAuthor));
+            news.put(id, new NewsModel(id, tmpTitle, tmpContent, now, now, tmpAuthor));
             authors.put(tmpAuthor.getId(), tmpAuthor);
             contentFromFile.remove(indexC);
             titlesFromFile.remove(indexT);

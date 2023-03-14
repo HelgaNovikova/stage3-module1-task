@@ -1,34 +1,34 @@
 package com.mjc.school.controller.impl;
 
-import com.mjc.school.repository.model.PieceOfNewsModel;
+import com.mjc.school.repository.model.NewsModel;
 import com.mjc.school.service.NewsService;
-import com.mjc.school.service.dto.PieceOfNewsCreateDto;
-import com.mjc.school.service.dto.PieceOfNewsResponseDto;
-import com.mjc.school.service.dto.PieceOfNewsUpdateDto;
+import com.mjc.school.service.dto.NewsCreateDto;
+import com.mjc.school.service.dto.NewsResponseDto;
+import com.mjc.school.service.dto.NewsUpdateDto;
 
 import java.util.List;
 
 public class NewsController {
-    private final NewsService<PieceOfNewsModel, PieceOfNewsResponseDto> newsService;
+    private final NewsService<NewsModel, NewsResponseDto> newsService;
 
-    public NewsController(NewsService<PieceOfNewsModel, PieceOfNewsResponseDto> newsService) {
+    public NewsController(NewsService<NewsModel, NewsResponseDto> newsService) {
         this.newsService = newsService;
     }
 
-    public List<PieceOfNewsResponseDto> readAll() {
+    public List<NewsResponseDto> readAll() {
         return this.newsService.readAllDto();
     }
 
-    public PieceOfNewsResponseDto readById(Long newsId) {
-        return (PieceOfNewsResponseDto) this.newsService.readByIdDto(newsId);
+    public NewsResponseDto readById(Long newsId) {
+        return this.newsService.readByIdDto(newsId);
     }
 
-    public PieceOfNewsResponseDto create(PieceOfNewsCreateDto dtoRequest) {
-        return (PieceOfNewsResponseDto) this.newsService.createPieceOfNewsDto(dtoRequest);
+    public NewsResponseDto create(NewsCreateDto dtoRequest) {
+        return this.newsService.createNewsDto(dtoRequest);
     }
 
-    public PieceOfNewsResponseDto update(PieceOfNewsUpdateDto dtoRequest) {
-        return (PieceOfNewsResponseDto) this.newsService.updatePieceOfNewsByIdDto(dtoRequest);
+    public NewsResponseDto update(NewsUpdateDto dtoRequest) {
+        return this.newsService.updateNewsByIdDto(dtoRequest);
     }
 
     public Boolean deleteById(Long newsId) {

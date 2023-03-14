@@ -2,13 +2,13 @@ package com.mjc.school.repository.impl;
 
 import com.mjc.school.repository.Repository;
 import com.mjc.school.repository.model.AuthorModel;
-import com.mjc.school.repository.model.PieceOfNewsModel;
+import com.mjc.school.repository.model.NewsModel;
 import com.mjc.school.repository.utils.DataSource;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class FileRepository implements Repository<PieceOfNewsModel> {
+public class FileRepository implements Repository<NewsModel> {
 
     private final DataSource dataSource;
 
@@ -22,12 +22,12 @@ public class FileRepository implements Repository<PieceOfNewsModel> {
     }
 
     @Override
-    public List<PieceOfNewsModel> readAll() {
+    public List<NewsModel> readAll() {
         return dataSource.getNews().values().stream().toList();
     }
 
     @Override
-    public PieceOfNewsModel readById(Long id) {
+    public NewsModel readById(Long id) {
         return dataSource.getNews().get(id);
     }
 
@@ -37,16 +37,16 @@ public class FileRepository implements Repository<PieceOfNewsModel> {
     }
 
     @Override
-    public PieceOfNewsModel create(PieceOfNewsModel pieceOfNews) {
+    public NewsModel create(NewsModel pieceOfNews) {
         return save(pieceOfNews);
     }
 
     @Override
-    public PieceOfNewsModel update(PieceOfNewsModel pieceOfNews) {
+    public NewsModel update(NewsModel pieceOfNews) {
         return save(pieceOfNews);
     }
 
-    private PieceOfNewsModel save(PieceOfNewsModel pieceOfNews) {
+    private NewsModel save(NewsModel pieceOfNews) {
         if (pieceOfNews.getId() == null) {
             pieceOfNews.setId(dataSource.getNextId());
             pieceOfNews.setCreateDate(LocalDateTime.now());

@@ -2,12 +2,12 @@ package com.mjc.school.service.impl;
 
 import com.mjc.school.repository.Repository;
 import com.mjc.school.repository.model.AuthorModel;
-import com.mjc.school.repository.model.PieceOfNewsModel;
+import com.mjc.school.repository.model.NewsModel;
 import com.mjc.school.service.NewsService;
+import com.mjc.school.service.dto.NewsCreateDto;
 import com.mjc.school.service.dto.NewsMapper;
-import com.mjc.school.service.dto.PieceOfNewsCreateDto;
-import com.mjc.school.service.dto.PieceOfNewsResponseDto;
-import com.mjc.school.service.dto.PieceOfNewsUpdateDto;
+import com.mjc.school.service.dto.NewsResponseDto;
+import com.mjc.school.service.dto.NewsUpdateDto;
 import com.mjc.school.service.exception.AuthorNotFoundException;
 import com.mjc.school.service.utils.NewsValidator;
 
@@ -16,47 +16,47 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NewsServiceImpl implements NewsService {
-    private final Repository<PieceOfNewsModel> newsRepository;
+    private final Repository<NewsModel> newsRepository;
     private final NewsValidator newsValidator;
 
-    public NewsServiceImpl(Repository<PieceOfNewsModel> repository, NewsValidator newsValidator) {
+    public NewsServiceImpl(Repository<NewsModel> repository, NewsValidator newsValidator) {
         this.newsRepository = repository;
         this.newsValidator = newsValidator;
     }
 
     @Override
-    public List<PieceOfNewsResponseDto> readAllDto() {
+    public List<NewsResponseDto> readAllDto() {
         var allNews = newsRepository.readAll();
-        List<PieceOfNewsResponseDto> newsDto = new ArrayList<>();
-        for (PieceOfNewsModel item : allNews) {
+        List<NewsResponseDto> newsDto = new ArrayList<>();
+        for (NewsModel item : allNews) {
             newsDto.add(NewsMapper.INSTANCE.newsToNewsResponseDto(item));
         }
         return newsDto;
     }
 
     @Override
-    public PieceOfNewsResponseDto readByIdDto(Long id) {
-        PieceOfNewsModel news = newsRepository.readById(id);
+    public NewsResponseDto readByIdDto(Long id) {
+        NewsModel news = newsRepository.readById(id);
         NewsValidator.validateNewsPresence(id, news);
         return NewsMapper.INSTANCE.newsToNewsResponseDto(news);
     }
 
     @Override
     public Boolean deleteNewsByIdDto(Long id) {
-        PieceOfNewsModel newsModel = newsRepository.readById(id);
+        NewsModel newsModel = newsRepository.readById(id);
         NewsValidator.validateNewsPresence(id, newsModel);
         return newsRepository.deletePieceOfNewsById(id);
     }
 
     @Override
-    public PieceOfNewsResponseDto updatePieceOfNewsByIdDto(PieceOfNewsUpdateDto dto) {
+    public NewsResponseDto updateNewsByIdDto(NewsUpdateDto dto) {
         AuthorModel author = getAuthorById(dto.getAuthorId());
-        PieceOfNewsModel newsModel = newsRepository.readById(dto.getId());
+        NewsModel newsModel = newsRepository.readById(dto.getId());
         NewsValidator.validateNewsPresence(dto.getId(), newsModel);
         NewsValidator.validateContent(dto.getContent());
         NewsValidator.validateTitle(dto.getTitle());
         LocalDateTime createDate = newsModel.getCreateDate();
-        PieceOfNewsModel news = NewsMapper.INSTANCE.updateNewsDtoToNews(dto, author, createDate);
+        NewsModel news = NewsMapper.INSTANCE.updateNewsDtoToNews(dto, author, createDate);
         return NewsMapper.INSTANCE.newsToNewsResponseDto(newsRepository.update(news));
     }
 
@@ -69,9 +69,9 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    public PieceOfNewsResponseDto createPieceOfNewsDto(PieceOfNewsCreateDto dto) {
+    public NewsResponseDto createNewsDto(NewsCreateDto dto) {
         AuthorModel author = getAuthorById(dto.getAuthorId());
-        PieceOfNewsModel news = NewsMapper.INSTANCE.createNewsDtoToNews(dto, author);
+        NewsModel news = NewsMapper.INSTANCE.createNewsDtoToNews(dto, author);
         NewsValidator.validateContent(news.getContent());
         NewsValidator.validateTitle(news.getTitle());
         return NewsMapper.INSTANCE.newsToNewsResponseDto(newsRepository.create(news));

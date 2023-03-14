@@ -1,11 +1,11 @@
 package com.mjc.school.service.dto;
 
-public class PieceOfNewsCreateDto {
+public class NewsCreateDto {
     long authorId;
     String title;
     String content;
 
-    public PieceOfNewsCreateDto(long authorId, String title, String content) {
+    public NewsCreateDto(long authorId, String title, String content) {
         this.authorId = authorId;
         this.title = title;
         this.content = content;

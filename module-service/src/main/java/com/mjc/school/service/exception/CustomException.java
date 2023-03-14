@@ -1,7 +1,7 @@
 package com.mjc.school.service.exception;
 
-public abstract class CodedException extends RuntimeException {
-    public CodedException(String message) {
+public abstract class CustomException extends RuntimeException {
+    public CustomException(String message) {
         super(message);
     }
 

@@ -1,9 +1,8 @@
 package com.mjc.school.service.dto;
 
-import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class PieceOfNewsResponseDto {
+public class NewsResponseDto {
 
     private long id;
     private String title;
@@ -76,7 +75,7 @@ public class PieceOfNewsResponseDto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        PieceOfNewsResponseDto that = (PieceOfNewsResponseDto) o;
+        NewsResponseDto that = (NewsResponseDto) o;
         return id == that.id && authorId == that.authorId && Objects.equals(title, that.title) && Objects.equals(content, that.content) && Objects.equals(createDate, that.createDate) && Objects.equals(lastUpdateDate, that.lastUpdateDate);
     }
 
